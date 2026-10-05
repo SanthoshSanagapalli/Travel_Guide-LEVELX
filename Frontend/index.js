@@ -125,7 +125,13 @@ voiceButtons.forEach(btn => {
 
 // Generate Audio guide button Logic
 
-const GENERATE_AUDIO_GUIDE_API_URL = "http://127.0.0.1:5000/generate-audio-guide";
+const isLocalFrontend = window.location.protocol === 'file:' ||
+  window.location.hostname === 'localhost' ||
+  window.location.hostname === '127.0.0.1';
+const API_BASE_URL = isLocalFrontend
+  ? 'http://127.0.0.1:5000'
+  : 'https://travel-guide-levelx.onrender.com';
+const GENERATE_AUDIO_GUIDE_API_URL = `${API_BASE_URL}/generate-audio-guide`;
 
 generateButton.addEventListener('click', async () => {
   generateButton.disabled = true;
