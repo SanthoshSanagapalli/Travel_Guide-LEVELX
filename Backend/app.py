@@ -1,15 +1,24 @@
+import os
+import base64
+import tempfile
+
+from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from google import genai
 import requests
-import tempfile
-import base64
+
+load_dotenv()
+
+MURF_API_KEY = os.getenv("MURF_API_KEY")
+GOOGLE_GENAI_API_KEY = os.getenv("GOOGLE_GENAI_API_KEY")
+
+if not GOOGLE_GENAI_API_KEY:
+    raise RuntimeError("GOOGLE_GENAI_API_KEY is missing. Add it to Backend/.env.")
 
 app = Flask(__name__)
 CORS(app)
-MURF_API_KEY = "YOUR_MURF_API_KEY"  
-
-client = genai.Client(api_key="YOUR_GOOGLE_GENAI_API_KEY")      
+client = genai.Client(api_key=GOOGLE_GENAI_API_KEY)
 
 PROMPTS = {
     "Summary": """
